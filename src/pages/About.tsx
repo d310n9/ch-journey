@@ -54,7 +54,11 @@ const About = () => {
         
         {/* About Section */}
         <section 
-          ref={(el: HTMLDivElement | null) => sectionsRef.current[0] = el}
+          ref={(el) => { 
+            if (el instanceof HTMLDivElement || el === null) {
+              sectionsRef.current[0] = el;
+            }
+          }}
           className="py-16 opacity-0"
         >
           <div className="container mx-auto px-6 md:px-8">
@@ -98,7 +102,11 @@ const About = () => {
         
         {/* Newsletter Section */}
         <section 
-          ref={(el: HTMLDivElement | null) => sectionsRef.current[1] = el}
+          ref={(el) => { 
+            if (el instanceof HTMLDivElement || el === null) {
+              sectionsRef.current[1] = el;
+            }
+          }}
           className="py-16 opacity-0"
         >
           <div className="container mx-auto px-6 md:px-8">
