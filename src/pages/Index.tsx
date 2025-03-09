@@ -13,8 +13,8 @@ const Home = () => {
   const { t } = useLanguage();
   const featuredPost = getFeaturedPost();
   const recentPosts = getRecentPosts(3);
-  // Properly type the ref array to accept HTMLDivElement specifically
-  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+  // Use a more direct approach with refs
+  const sectionsRef = useRef<HTMLDivElement[]>([]);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,6 +22,7 @@ const Home = () => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('animate-fade-up');
+            entry.target.classList.remove('opacity-0');
           }
         });
       },
@@ -38,6 +39,13 @@ const Home = () => {
       });
     };
   }, []);
+  
+  // Function to add elements to the refs array
+  const addToRefs = (el: HTMLDivElement | null, index: number) => {
+    if (el && !sectionsRef.current.includes(el)) {
+      sectionsRef.current[index] = el;
+    }
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -63,12 +71,8 @@ const Home = () => {
         
         {/* Features Section */}
         <section
-          ref={(el) => { 
-            if (el instanceof HTMLDivElement || el === null) {
-              sectionsRef.current[0] = el;
-            }
-          }}
-          className="py-16 opacity-0"
+          ref={el => addToRefs(el, 0)}
+          className="py-16 opacity-0 transition-opacity duration-500"
         >
           <div className="container mx-auto px-6 md:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -102,12 +106,8 @@ const Home = () => {
         {/* Featured Post Section */}
         {featuredPost && (
           <section 
-            ref={(el) => { 
-              if (el instanceof HTMLDivElement || el === null) {
-                sectionsRef.current[1] = el;
-              }
-            }}
-            className="py-16 opacity-0"
+            ref={el => addToRefs(el, 1)}
+            className="py-16 opacity-0 transition-opacity duration-500"
           >
             <div className="container mx-auto px-6 md:px-8">
               <h2 className="text-3xl font-bold mb-8">{t('featuredPost')}</h2>
@@ -118,12 +118,8 @@ const Home = () => {
         
         {/* Recent Posts Section */}
         <section 
-          ref={(el) => { 
-            if (el instanceof HTMLDivElement || el === null) {
-              sectionsRef.current[2] = el;
-            }
-          }}
-          className="py-16 opacity-0"
+          ref={el => addToRefs(el, 2)}
+          className="py-16 opacity-0 transition-opacity duration-500"
         >
           <div className="container mx-auto px-6 md:px-8">
             <h2 className="text-3xl font-bold mb-8">{t('latestArticles')}</h2>
@@ -141,12 +137,8 @@ const Home = () => {
         
         {/* Newsletter Section */}
         <section 
-          ref={(el) => { 
-            if (el instanceof HTMLDivElement || el === null) {
-              sectionsRef.current[3] = el;
-            }
-          }}
-          className="py-16 opacity-0"
+          ref={el => addToRefs(el, 3)}
+          className="py-16 opacity-0 transition-opacity duration-500"
         >
           <div className="container mx-auto px-6 md:px-8">
             <Newsletter />

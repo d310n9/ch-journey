@@ -7,8 +7,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const About = () => {
   const { t } = useLanguage();
-  // Properly type the ref array to accept HTMLDivElement specifically
-  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+  // Use a more direct approach with refs
+  const sectionsRef = useRef<HTMLDivElement[]>([]);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -16,6 +16,7 @@ const About = () => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('animate-fade-up');
+            entry.target.classList.remove('opacity-0');
           }
         });
       },
@@ -32,6 +33,13 @@ const About = () => {
       });
     };
   }, []);
+  
+  // Function to add elements to the refs array
+  const addToRefs = (el: HTMLDivElement | null, index: number) => {
+    if (el && !sectionsRef.current.includes(el)) {
+      sectionsRef.current[index] = el;
+    }
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -54,12 +62,8 @@ const About = () => {
         
         {/* About Section */}
         <section 
-          ref={(el) => { 
-            if (el instanceof HTMLDivElement || el === null) {
-              sectionsRef.current[0] = el;
-            }
-          }}
-          className="py-16 opacity-0"
+          ref={el => addToRefs(el, 0)}
+          className="py-16 opacity-0 transition-opacity duration-500"
         >
           <div className="container mx-auto px-6 md:px-8">
             <div className="max-w-3xl mx-auto prose prose-lg">
@@ -102,12 +106,8 @@ const About = () => {
         
         {/* Newsletter Section */}
         <section 
-          ref={(el) => { 
-            if (el instanceof HTMLDivElement || el === null) {
-              sectionsRef.current[1] = el;
-            }
-          }}
-          className="py-16 opacity-0"
+          ref={el => addToRefs(el, 1)}
+          className="py-16 opacity-0 transition-opacity duration-500"
         >
           <div className="container mx-auto px-6 md:px-8">
             <Newsletter />
