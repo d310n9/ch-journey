@@ -13,6 +13,7 @@ const Home = () => {
   const { t } = useLanguage();
   const featuredPost = getFeaturedPost();
   const recentPosts = getRecentPosts(3);
+  // Properly type the ref array to accept HTMLDivElement specifically
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
   
   useEffect(() => {
@@ -62,7 +63,7 @@ const Home = () => {
         
         {/* Features Section */}
         <section
-          ref={el => sectionsRef.current[0] = el}
+          ref={(el: HTMLDivElement | null) => sectionsRef.current[0] = el}
           className="py-16 opacity-0"
         >
           <div className="container mx-auto px-6 md:px-8">
@@ -97,7 +98,7 @@ const Home = () => {
         {/* Featured Post Section */}
         {featuredPost && (
           <section 
-            ref={el => sectionsRef.current[1] = el}
+            ref={(el: HTMLDivElement | null) => sectionsRef.current[1] = el}
             className="py-16 opacity-0"
           >
             <div className="container mx-auto px-6 md:px-8">
@@ -109,7 +110,7 @@ const Home = () => {
         
         {/* Recent Posts Section */}
         <section 
-          ref={el => sectionsRef.current[2] = el}
+          ref={(el: HTMLDivElement | null) => sectionsRef.current[2] = el}
           className="py-16 opacity-0"
         >
           <div className="container mx-auto px-6 md:px-8">
@@ -128,7 +129,7 @@ const Home = () => {
         
         {/* Newsletter Section */}
         <section 
-          ref={el => sectionsRef.current[3] = el}
+          ref={(el: HTMLDivElement | null) => sectionsRef.current[3] = el}
           className="py-16 opacity-0"
         >
           <div className="container mx-auto px-6 md:px-8">

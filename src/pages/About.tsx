@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const About = () => {
   const { t } = useLanguage();
+  // Properly type the ref array to accept HTMLDivElement specifically
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
   
   useEffect(() => {
@@ -53,7 +54,7 @@ const About = () => {
         
         {/* About Section */}
         <section 
-          ref={el => sectionsRef.current[0] = el}
+          ref={(el: HTMLDivElement | null) => sectionsRef.current[0] = el}
           className="py-16 opacity-0"
         >
           <div className="container mx-auto px-6 md:px-8">
@@ -97,7 +98,7 @@ const About = () => {
         
         {/* Newsletter Section */}
         <section 
-          ref={el => sectionsRef.current[1] = el}
+          ref={(el: HTMLDivElement | null) => sectionsRef.current[1] = el}
           className="py-16 opacity-0"
         >
           <div className="container mx-auto px-6 md:px-8">
